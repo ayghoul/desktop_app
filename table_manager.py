@@ -14,7 +14,6 @@ class TableManager(QObject):
         table.setColumnCount(col) 
         return table 
     
-
     def fill_table_cell(self, table, arr, row, col): 
         
         return table 
@@ -50,10 +49,7 @@ class TableManager(QObject):
         
         self.add_combobox_signal.emit(table, arr, table_row)
         self.table_size_changed.emit(arr)
-
-        
-
-        
+   
     def change_bg_color(self, table, arr, row): 
         if arr[row][len(arr[0])-2] > 0: 
             table.item(row, len(arr[0])-2).setBackground(QtGui.QColor(0,128,0)) 
@@ -63,10 +59,18 @@ class TableManager(QObject):
     
     # Заполнение ячеек таблицы данными из массива
     def fill_table(self, table, arr):
-        for row_index in range(len(arr)): 
-            for col_index in range(len(arr[0])): 
-                item = QTableWidgetItem(str(round(arr[row_index][col_index], 2))) 
-                table.setItem(row_index, col_index, item) 
-                table.item(row_index, col_index).setTextAlignment(Qt.AlignCenter)
-            table = self.change_bg_color(table, arr, row_index) 
+        for row_index in range(len(arr)):
+            # Метод вызывается дважды при изменении размера массива, после при изменении размера таблицы
+            # в первом случае размер таблицы еще не совпадает с размером массива из-за чего происходит ошибка
+            # 'NoneType' object has no attribute ...
+            # на работоспособность не влияет, поэтому ошибка игнорируется - pass
+            try:
+                for col_index in range(len(arr[0])): 
+                    item = QTableWidgetItem(str(round(arr[row_index][col_index], 2))) 
+                    table.setItem(row_index, col_index, item) 
+                    table.item(row_index, col_index).setTextAlignment(Qt.AlignCenter)
+                
+                table = self.change_bg_color(table, arr, row_index) 
+            except:
+                pass
         return table

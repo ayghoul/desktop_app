@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import (QMessageBox, QWidget, QTableWidget,
 QHBoxLayout, QLabel) 
 from PyQt5.QtCore import Qt, QSize, pyqtSignal 
 from PyQt5 import QtGui 
-from data_creator import DataCreator
+
 
 # Импорт классов из файлов с той же директории
+from data_creator import DataCreator
 from column_update_decider import ColumnUpdateDecider
 from data_manager import DataManager
 from table_manager import TableManager
